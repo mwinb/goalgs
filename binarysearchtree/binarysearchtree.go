@@ -154,12 +154,9 @@ func (bst *BinarySearchTree) PostOrderSlice() []TreeData {
 
 // LowestCommonAncestor returns the lowest node that has both as ancestors.
 func (bst *BinarySearchTree) LowestCommonAncestor(lhKey int, rhKey int) *TreeNode {
-	var ancestor *TreeNode
-	ancestor = bst.Root
+	ancestor := bst.Root
 	for ancestor != nil {
 		switch currentKey := ancestor.Data.GetKey(); {
-		case lhKey == bst.Root.Data.GetKey() || rhKey == bst.Root.Data.GetKey():
-			return bst.Root
 		case lhKey < currentKey && rhKey < currentKey:
 			ancestor = ancestor.left
 		case lhKey > currentKey && rhKey > currentKey:
