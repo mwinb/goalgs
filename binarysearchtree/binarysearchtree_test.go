@@ -394,3 +394,151 @@ func TestBSTPostOrderSlice(t *testing.T) {
 		)
 	})
 }
+
+func TestBSTLowestCommonAncestor(t *testing.T) {
+	t.Run("It returns nil if empty tree", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		var expected *TreeNode
+		actual := bst.LowestCommonAncestor(10, 40)
+		testutils.Expect(
+			t,
+			fmt.Sprint(expected),
+			fmt.Sprint(actual),
+			expected == actual,
+		)
+	})
+
+	t.Run("It returns the node if they are equal", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 10})
+		bst.Insert(itd.IntTreeData{Value: 7})
+		bst.Insert(itd.IntTreeData{Value: 3})
+		expectedKey := 3
+		actualKey := bst.LowestCommonAncestor(3, 3).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+	})
+
+	t.Run("It returns the root if both of the keys are the root", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 10})
+		bst.Insert(itd.IntTreeData{Value: 7})
+		bst.Insert(itd.IntTreeData{Value: 3})
+		expected := 10
+		actual := bst.LowestCommonAncestor(10, 10).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expected),
+			fmt.Sprint(actual),
+			expected == actual,
+		)
+	})
+
+	t.Run("It returns the root if the left key is the root", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 10})
+		bst.Insert(itd.IntTreeData{Value: 7})
+		bst.Insert(itd.IntTreeData{Value: 3})
+		expectedKey := 10
+		actualKey := bst.LowestCommonAncestor(10, 3).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+	})
+
+	t.Run("It returns the root if the right key is the root", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 10})
+		bst.Insert(itd.IntTreeData{Value: 7})
+		bst.Insert(itd.IntTreeData{Value: 3})
+		expectedKey := 10
+		actualKey := bst.LowestCommonAncestor(3, 10).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+	})
+
+	t.Run("It returns the node closest on the left to the root if both are less than the root", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 3})
+		bst.Insert(itd.IntTreeData{Value: 2})
+		bst.Insert(itd.IntTreeData{Value: 5})
+		bst.Insert(itd.IntTreeData{Value: 1})
+		bst.Insert(itd.IntTreeData{Value: 4})
+		expectedKey := 2
+		actualKey := bst.LowestCommonAncestor(1, 2).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+		expectedKey = 3
+		actualKey = bst.LowestCommonAncestor(3, 2).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+	})
+
+	t.Run("It returns the node closest on the right to the root if both are greater than the root", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 3})
+		bst.Insert(itd.IntTreeData{Value: 2})
+		bst.Insert(itd.IntTreeData{Value: 5})
+		bst.Insert(itd.IntTreeData{Value: 1})
+		bst.Insert(itd.IntTreeData{Value: 4})
+		bst.Insert(itd.IntTreeData{Value: 7})
+		bst.Insert(itd.IntTreeData{Value: 6})
+
+		expectedKey := 7
+		actualKey := bst.LowestCommonAncestor(7, 6).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+		expectedKey = 5
+		actualKey = bst.LowestCommonAncestor(4, 7).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+	})
+
+	t.Run("It returns the root if one is less and the other is greater than the root.", func(t *testing.T) {
+		bst := BinarySearchTree{}
+		bst.Insert(itd.IntTreeData{Value: 3})
+		bst.Insert(itd.IntTreeData{Value: 2})
+		bst.Insert(itd.IntTreeData{Value: 5})
+		bst.Insert(itd.IntTreeData{Value: 1})
+		bst.Insert(itd.IntTreeData{Value: 4})
+		bst.Insert(itd.IntTreeData{Value: 7})
+		bst.Insert(itd.IntTreeData{Value: 6})
+
+		expectedKey := 3
+		actualKey := bst.LowestCommonAncestor(4, 1).Data.GetKey()
+		testutils.Expect(
+			t,
+			fmt.Sprint(expectedKey),
+			fmt.Sprint(actualKey),
+			expectedKey == actualKey,
+		)
+	})
+
+}
